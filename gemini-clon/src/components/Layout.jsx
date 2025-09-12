@@ -3,12 +3,10 @@ import Navbar from "./Navbar.jsx";
 
 const Layout = ({ children }) => {
     return (
-        <div className="flex h-screen bg-gray-100">
+        <div className="flex h-screen w-screen bg-gray-100 dark:bg-gray950">
             {/* Sidebar */}
-            <aside className="w-64 bg-white shadow-md p-4">
                 <Sidebar />
-            </aside>
-
+            
             {/* Main Content */}
             <div className="flex-1 flex flex-col">
                 {/* Header */}
