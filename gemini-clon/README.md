@@ -1,12 +1,79 @@
-# React + Vite
+# 🌟 Gemini Clone - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es el frontend de un clon de **Gemini**, construido con tecnologías modernas y un enfoque educativo paso a paso. Está diseñado para aprender y aplicar conceptos de desarrollo web con una arquitectura profesional.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧰 Tecnologías utilizadas
 
-## Expanding the ESLint configuration
+- **ReactJS** – Librería para construir interfaces de usuario.
+- **Vite** – Herramienta de desarrollo rápida y ligera.
+- **Tailwind CSS v3.4.17** – Framework de estilos utilitario para diseño moderno y responsivo.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📦 Estructura del Proyecto
+
+- `src/` – Contiene todos los componentes, páginas y estilos.
+- `index.html` – Punto de entrada del proyecto.
+- `tailwind.config.js` – Configuración de Tailwind.
+- `main.jsx` – Archivo principal que monta la app.
+
+---
+
+## 🚀 Objetivo del Proyecto
+
+Crear una interfaz funcional y elegante que simule el comportamiento de Gemini, incluyendo:
+
+- Diseño responsivo y moderno.
+- Interacción con el backend (Express + PostgreSQL + Prisma).
+- Flujo de datos claro entre frontend y backend.
+
+---
+
+## 🧱 Backend del Proyecto
+
+Este frontend se conecta con un backend separado, construido con:
+
+- **Express** – Servidor en Node.js.
+- **PostgreSQL** – Base de datos relacional.
+- **Prisma** – ORM para manejar la base de datos.
+
+👉 El backend se encuentra en un repositorio independiente.
+
+---
+
+## 🗂️ Repositorios
+
+- **Frontend**: [este repositorio]
+- **Backend**: [enlace al repositorio del backend cuando esté disponible]
+
+---
+
+## 🧪 Estado del Proyecto
+
+✅ Inicializado con Vite  
+✅ Tailwind CSS configurado  
+🔜 Layout base  
+🔜 Componentes principales  
+🔜 Conexión con backend  
+🔜 Autenticación y lógica de negocio
+
+---
+
+## 📚 Aprendizaje
+
+Este proyecto está pensado para aprender:
+
+- Cómo estructurar una app moderna con React.
+- Cómo usar Tailwind para diseño profesional.
+- Cómo conectar frontend y backend de forma eficiente.
+- Buenas prácticas de desarrollo fullstack.
+
+---
+
+## 🧑‍💻 Autor
+
+**Haase** – Desarrollador en formación con enfoque en programación, diseño y metodologías ágiles.
+
+---
