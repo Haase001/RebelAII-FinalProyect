@@ -61,17 +61,17 @@ const Chats = () => {
                             {chat.map((interaction, index)=>{
                                 return(
                                     <div 
-                                    className={`flex ${interaction.from === "user" ? "justify-end": "justify-start" }`}
-                                    key={index+interaction.from}
+                                    className={`flex ${interaction.role === "user" ? "justify-end": "justify-start" }`}
+                                    key={index+interaction.role}
                                     >
-                                        {interaction.from === "user" ? (
+                                        {interaction.role === "user" ? (
                                             <>
                                                 <div className='flex max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-2xl rounded-tr-sm p-3     bg-slate-400'>
                                                     <span className="break-words mt-1">
                                                         <ReactMarkdown
                                                         remarkPlugins={[remarkGfm]}
                                                         >
-                                                            {DOMPurify.sanitize(interaction.text)}
+                                                            {DOMPurify.sanitize(interaction.parts)}
                                                         </ReactMarkdown>
                                                     </span>
                                                 </div>
@@ -82,11 +82,11 @@ const Chats = () => {
                                                     <span className="text-2xl text-blue-500">
                                                         <i className="fa-brands fa-fulcrum mr-3"></i>
                                                     </span>
-                                                    <div className='result-data w-full'>
+                                                    <div className='flex flex-wrap result-data w-full'>
                                                         <ReactMarkdown
                                                         remarkPlugins={[remarkGfm]}
                                                         >
-                                                            {DOMPurify.sanitize(interaction.text)}
+                                                            {DOMPurify.sanitize(interaction.parts)}
                                                         </ReactMarkdown>
                                                         <div ref={messagesEndRef} />
                                                     </div>

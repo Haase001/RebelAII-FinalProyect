@@ -30,8 +30,8 @@ const ContextProvider = (props) => {
         
         //Agregamos lo más reciente de la conversación a nuestro historial del chat en caso de que sea una conversación activa
         if (recentPrompt) {
-            setChat(prev => [...prev, {from: 'user', text:recentPrompt}]);
-            setChat(prev => [...prev, {from:'ai', text: resultData }]);
+            setChat(prev => [...prev, {role: 'user', parts:recentPrompt}]);
+            setChat(prev => [...prev, {role:'ai', parts: resultData }]);
         } 
         
         //Borramos el estado de la última respuesta del la IA
@@ -45,7 +45,7 @@ const ContextProvider = (props) => {
         setRecentPrompt(input)
 
         //Esperamos una respuesta de la IA y la guardamos en una constante
-        const response = await main(input)
+        const response = await main(chat, input)
         
         //Borramos el prompt actual
         setInput("")
