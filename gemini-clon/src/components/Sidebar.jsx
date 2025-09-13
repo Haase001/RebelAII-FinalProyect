@@ -47,7 +47,6 @@ const Sidebar = () => {
         // Aquí usaré setChat(chatList[index]) más adelante
     };
 
-
     return (
         <div 
         className={`fixed left-0 top-0 h-screen bg-stone-300 dark:bg-gray-900 dark:text-gray-200 shadow-md transition-all duration-300 z-50 ${isExpanded || isPinned ? 'w-64' : 'w-16'}`}
