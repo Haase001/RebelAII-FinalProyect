@@ -27,11 +27,11 @@ const ContextProvider = (props) => {
 
     //Función que recibe el prompt del usuario y pide una respuesta de la API
     const onSent = async () => {
-
+        
         //Agregamos lo más reciente de la conversación a nuestro historial del chat en caso de que sea una conversación activa
         if (recentPrompt) {
-            setChat(prev => [...prev, {prompt: recentPrompt, response: resultData }]);
-
+            setChat(prev => [...prev, {from: 'user', text:recentPrompt}]);
+            setChat(prev => [...prev, {from:'ai', text: resultData }]);
         } 
         
         //Borramos el estado de la última respuesta del la IA
@@ -59,7 +59,7 @@ const ContextProvider = (props) => {
 
         //Quitamos la animacíon de loading
         setLoading(false)
-        
+
     }
 
     //Estados para el diseño de la pagina

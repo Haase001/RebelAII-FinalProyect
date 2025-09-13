@@ -60,40 +60,40 @@ const Chats = () => {
                         <div className="space-y-4 w-full h-full">
                             {chat.map((interaction, index)=>{
                                 return(
-                                    <>
-                                        <div 
-                                        className='flex justify-end'
-                                        key={index+"userPrompt"}
-                                        >
-                                            <div className='flex max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-2xl rounded-tr-sm p-3 bg-slate-400'>
-                                                <span className="break-words mt-1">
-                                                    <ReactMarkdown
-                                                    remarkPlugins={[remarkGfm]}
-                                                    >
-                                                        {DOMPurify.sanitize(interaction.prompt)}
-                                                    </ReactMarkdown>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div 
-                                        className='flex justify-start' 
-                                        key={index+"aiResponse"}
-                                        >
-                                            <div className='flex max-w-xs md:max-w-md lg:max-w-2xl xl:max-w-xl p-3 dark:bg-gray-950 bg-white h-fit'>
-                                                <span className="text-2xl text-blue-500">
-                                                    <i className="fa-brands fa-fulcrum mr-3"></i>
-                                                </span>
-                                                <div className='result-data w-full'>
-                                                    <ReactMarkdown
-                                                    remarkPlugins={[remarkGfm]}
-                                                    >
-                                                        {DOMPurify.sanitize(interaction.response)}
-                                                    </ReactMarkdown>
-                                                    <div ref={messagesEndRef} />
+                                    <div 
+                                    className={`flex ${interaction.from === "user" ? "justify-end": "justify-start" }`}
+                                    key={index+interaction.from}
+                                    >
+                                        {interaction.from === "user" ? (
+                                            <>
+                                                <div className='flex max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-2xl rounded-tr-sm p-3     bg-slate-400'>
+                                                    <span className="break-words mt-1">
+                                                        <ReactMarkdown
+                                                        remarkPlugins={[remarkGfm]}
+                                                        >
+                                                            {DOMPurify.sanitize(interaction.text)}
+                                                        </ReactMarkdown>
+                                                    </span>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </>
+                                            </>
+                                        ):(
+                                            <>
+                                                <div className='flex max-w-xs md:max-w-md lg:max-w-2xl xl:max-w-xl p-3 dark:bg-gray-950 bg-white h-fit'>
+                                                    <span className="text-2xl text-blue-500">
+                                                        <i className="fa-brands fa-fulcrum mr-3"></i>
+                                                    </span>
+                                                    <div className='result-data w-full'>
+                                                        <ReactMarkdown
+                                                        remarkPlugins={[remarkGfm]}
+                                                        >
+                                                            {DOMPurify.sanitize(interaction.text)}
+                                                        </ReactMarkdown>
+                                                        <div ref={messagesEndRef} />
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
                                 )
                             })}
                             <div className='flex justify-end' >
@@ -102,9 +102,9 @@ const Chats = () => {
                                 </div>
                             </div>
                             <div className='flex justify-start' >
-                                <div className='flex max-w-xs md:max-w-md lg:max-w-2xl xl:max-w-xl p-3 bg-white'>
+                                <div className='flex max-w-xs md:max-w-md lg:max-w-2xl xl:max-w-xl p-3 dark:bg-gray-950'>
                                     <span className={`text-2xl text-blue-500 ${loading ? "rounded-full animation" : ""}`}>
-                                        <i className={`fa-brands fa-fulcrum  ${!loading ? "mr-3": "rounded-full bg-white py-1 px-2"} `}></i>
+                                        <i className={`fa-brands fa-fulcrum  ${!loading ? "mr-3": "rounded-full bg-white dark:bg-gray-950 py-1 px-2"} `}></i>
                                     </span>
                                     {loading ? (
                                         <span className='mt-1'></span>
@@ -152,7 +152,7 @@ const Chats = () => {
                     <button
                     onClick={handleSendMessage}
                     disabled={input.trim() === ''}
-                    className={`py-1 px-2 rounded-full ml-2 transition-colors dark:bg-gray-800 dark:text-gray-200 ${input.trim() === '' ? 'bg-gray-200 text-gray-400' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+                    className={`py-1 px-2 rounded-full ml-2 transition-colors dark:bg-gray-800 dark:text-gray-200 ${input.trim() === '' ? 'bg-gray-200 text-gray-400' : 'bg-blue-500 text-white hover:bg-blue-600'} ${loading ? 'animate-pulse' : ''}`}
                     >
                         ➤
                     </button>
