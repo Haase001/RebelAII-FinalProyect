@@ -8,12 +8,7 @@
   box-sizing: border-box;
 }
 
-/*Estilos para menu deplegable de opciones en SIdebar */
-
-.option-menu{
-  min-width: 220px;
-}
-
+/*Animacion Fade*/
 @keyframes fadeIn {
   0%{
     opacity: 0;
@@ -23,6 +18,81 @@
   }
 }
 
+/*Animacion de Loading*/
+@keyframes rotate-gradient {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+/*Estilos para menu deplegable de opciones en SIdebar */
+
+.option-menu{
+  min-width: 220px;
+}
+
 #login-warning{
   animation: fadeIn 2s;
+}
+
+/*Estilos para animacion de loading en el Dashboard de Chats*/
+
+.animation {
+  border: 1px  solid transparent;
+  position: relative;
+  z-index: 2;
+  background-color: white;
+  /**animation: rotate-gradient 3s linear infinite;
+*/}
+
+.fa-fulcrum{
+  position: relative;
+  z-index: 2;
+  height: 32px;
+  width: 32px;
+}
+
+.animation::before{
+  content: "";
+  position: absolute;
+  top: -2px; /* Grosor del borde */
+  left: -3px; /* Grosor del borde */
+  right: -3px; /* Grosor del borde */
+  bottom: -3px; /* Grosor del borde */
+  background: conic-gradient(from 0deg, #3B82F6, #10B981, #F59E0B, #EF4444);
+  border-radius: 50%;
+  z-index: 1;
+  animation: rotate-gradient 1s linear infinite;
+}
+
+/*Estilos de la respuesta de la IA */
+.result-data .language-javascript{
+  display: flex;
+  padding: 2rem;
+  overflow-y: scroll;
+  max-width: 95%;
+  background-color: rgb(214 211 209 / var(--tw-bg-opacity, 1));
+}
+
+.result-data ol {
+  list-style-type: decimal; 
+  margin-left: 20px; 
+}
+
+.result-data ol li {
+  margin-bottom: 0.5rem;
+}
+
+.result-data ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.result-data ul li {
+  margin-bottom: 0.5rem;
+}
+
+/*Estilos del area de entrada de texto*/
+#text-container{
+  min-width: 75%;
 }
