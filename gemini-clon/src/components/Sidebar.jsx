@@ -6,7 +6,7 @@ const Sidebar = () => {
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [openMenu, setOpenMenu] = useState(null);
-    const { user, chatList, setSidebarWidth, isPinned, setIsPinned} = useContext(Context)
+    const { user, chatList, setSidebarWidth, isPinned, setIsPinned, isSidebarHidden} = useContext(Context)
 
     
     useEffect(()=>{
@@ -49,7 +49,7 @@ const Sidebar = () => {
 
     return (
         <div 
-        className={`fixed left-0 top-0 h-screen bg-stone-300 dark:bg-gray-900 dark:text-gray-200 shadow-md transition-all duration-300 z-50 ${isExpanded || isPinned ? 'w-64' : 'w-16'}`}
+        className={`fixed left-0 top-0 h-screen bg-stone-300 dark:bg-gray-900 dark:text-gray-200 shadow-md transition-all duration-300 z-50 ${isExpanded || isPinned ? 'w-64' : 'w-16'} ${isSidebarHidden ? "hidden": ""}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         >

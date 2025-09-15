@@ -8,12 +8,18 @@ const Chats = () => {
     const messagesEndRef = useRef(null);
     const chatContainerRef = useRef(null);
 
-    const { onSent, chat, recentPrompt, showResult, loading, resultData, setInput, input, sidebarWidth, isPinned , darkMode } = useContext(Context);
-
+    const { onSent, chat, recentPrompt, showResult, loading, resultData, setInput, input, sidebarWidth, isPinned, setIsSidebarHidden, darkMode } = useContext(Context);
+    
     // Efecto para hacer scroll al final cuando hay nuevos mensajes
     useEffect(() => {
         scrollToBottom();
     }, [resultData, darkMode]);
+
+    //Efecto para devolver el sidebar desprlegar el sidebar de nuevo
+    useEffect(() => {
+        setIsSidebarHidden(false);
+    }, [setIsSidebarHidden]);
+
 
     //Guardamos el with del sidebar para usarlo en nuestro componente
     const width = `${sidebarWidth}px`

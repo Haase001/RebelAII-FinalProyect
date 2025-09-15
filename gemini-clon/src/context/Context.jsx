@@ -66,6 +66,7 @@ const ContextProvider = (props) => {
     const [sidebarWidth, setSidebarWidth] = useState(64); //Cambiará de acuerdo a los estados sel sidebar
     const [isPinned, setIsPinned] = useState(false); //Cambiara de acuerdo a los estados de sidebar
     const [darkMode, setDarkMode] = useState(false);
+    const [isSidebarHidden, setIsSidebarHidden] = useState(true)
 
 
     //Valores que mandaremos en el contexto
@@ -96,6 +97,8 @@ const ContextProvider = (props) => {
         setSidebarWidth,
         isPinned,
         setIsPinned,
+        isSidebarHidden,
+        setIsSidebarHidden,
         darkMode,
         setDarkMode
     }
