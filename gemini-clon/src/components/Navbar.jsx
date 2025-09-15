@@ -4,9 +4,9 @@ import { Context } from '../context/Context.jsx';
 
 const Navbar = () => {
 
-    const { user, setUser, sidebarWidth, darkMode, setDarkMode} = useContext(Context);
+    const { user, setUser, sidebarWidth, darkMode, setDarkMode, isSidebarHidden} = useContext(Context);
     //Convertimos el formato de sidebarWidht para usarlo en nuestro componente
-    const width = `${sidebarWidth}px`
+    const width = `${!isSidebarHidden ? sidebarWidth : 0}px`
     
     //Funcion para mostrar diferentes vistas de acuerdo al si un usuarioo esta loggeado o no
     const logout = ()=>{
