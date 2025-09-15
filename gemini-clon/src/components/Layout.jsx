@@ -3,7 +3,7 @@ import Navbar from "./Navbar.jsx";
 
 const Layout = ({ children }) => {
     return (
-        <div className="flex h-screen w-screen bg-gray-100 dark:bg-gray950">
+        <div className="flex h-screen w-screen bg-gray-100 dark:bg-gray-950">
             {/* Sidebar */}
                 <Sidebar />
             
@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
                 <Navbar />
 
                 {/* Content */}
-                <main className="flex-1 overflow-y-auto">
+                <main className="flex-1 flex overflow-y-auto dark:bg-gray-950 ">
                     {children}
                 </main>
             </div>

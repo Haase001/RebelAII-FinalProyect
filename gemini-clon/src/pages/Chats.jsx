@@ -52,7 +52,7 @@ const Chats = () => {
             {/* Área de mensajes */}
             <div 
             ref={chatContainerRef}
-            className="flex-1 flex justify-center w-full overflow-y-auto transition-all duration-300 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent hover:scrollbar-thumb-gray-400"
+            className={`flex-1 flex justify-center w-full overflow-y-auto transition-all duration-300 scrollbar-thin scrollbar-custom overflow-y-auto`}
             >
                 <div 
                 className='flex justify-center p-4' 
