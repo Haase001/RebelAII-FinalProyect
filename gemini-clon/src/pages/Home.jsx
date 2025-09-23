@@ -36,7 +36,7 @@ const Home = () => {
                             Obtén respuestas, genera ideas y organiza tu vida con solo una pregunta.
                         </p>
                         <Link to="/chats">
-                            <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full text-lg transition-colors shadow-md">
+                            <button className="bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-200 px-6 py-3 rounded-full text-lg transition-colors shadow-md">
                                 Empezar a chatear
                             </button>
                         </Link>
