@@ -54,8 +54,8 @@ Este frontend se conecta con un backend separado, construido con:
 
 ✅ Inicializado con Vite  
 ✅ Tailwind CSS configurado  
-🔜 Layout base  
-🔜 Componentes principales  
+✅ Layout base  
+✅ Componentes principales  
 🔜 Conexión con backend  
 🔜 Autenticación y lógica de negocio
 
