@@ -6,9 +6,6 @@ import Chats from "../pages/Chats.jsx";
 import Home from "../pages/Home.jsx";
 import Settings from "../pages/Settings.jsx";
 import AuthForm from "../auth/AuthForm.jsx";
-import AuthForm2 from "../auth/AuthForm2.jsx";
-
-
 
 
 const AppRoutes = () => {
@@ -19,8 +16,7 @@ const AppRoutes = () => {
         <Routes>
             <Route element={<AnimatedLayout />}>
                 <Route path="/" element={<Home />} />
-                <Route path="/1" element={<AuthForm />} />
-                <Route path="/auth" element={<AuthForm2 />} />
+                <Route path="/auth" element={<AuthForm />} />
                 <Route path="/chats" element={
                     user ? <Chats /> : <Navigate to="/auth" />
                 } />

@@ -54,9 +54,20 @@
   background-color: #6b7280; /* gray-600 */
 }
 
+/*Estilos para el calendario */
+/* Oculta el ícono del calendario en WebKit */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+}
 
 
-/*Estilos para la página Home*/
+/*Estilos para la página de autenticación*/
+#authform{
+  min-height: calc(100vh - 80px);
+}
 
 
 /*Estilos para menu deplegable de opciones en SIdebar */
