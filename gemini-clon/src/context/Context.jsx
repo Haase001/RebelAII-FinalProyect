@@ -1,9 +1,13 @@
 import { createContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 import main from "../config/gemini.js"
+import { BASE_URL, createConversation, addMessage, getMessages } from "../services/api";
 
 export const Context = createContext();
 
 const ContextProvider = (props) => {
+
+    const navigate = useNavigate();
 
     const [user, setUser] = useState(false);
 
@@ -17,15 +21,69 @@ const ContextProvider = (props) => {
     const [loading, setLoading] = useState(false); //Estado que carga la animación de carga mientras se espera por una respuesta
     const [resultData, setResultData] = useState(""); //Estado que muestra la respuesta más reciente
 
+    //Verificamos si ya hay un usuario loggeado
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         const storedUser = localStorage.getItem('user');
 
         if (storedToken && storedUser) {
-            setUser(JSON.parse(storedUser));
+            setUser(JSON.parse(storedUser)); // ✅ guarda el objeto del usuario
         }
     }, []);
 
+    //Obtenemos el listado de conversaciones desde el backend
+    useEffect(() => {
+        const fetchConversations = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+            try {
+                const res = await fetch(`${BASE_URL}/conversations`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (res.status === 401 || res.status === 403) {
+                    throw new Error("Token expirado");
+                }
+
+                const data = await res.json();
+                setChatList(data);
+            } catch (error) {
+                console.error("Error al cargar conversaciones:", error);
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                setUser(null);
+                navigate('/'); // si tienes acceso a navigate aquí
+            }
+        };
+
+        fetchConversations();
+
+    }, [navigate]);
+
+    //Crear una nueva conversación
+    const startNewConversation = async () => {
+        const newConversation = await createConversation("Nueva conversación");
+        setChatList(prev => [...prev, newConversation]);
+        setCurrentChat(chatList.length); // apunta al nuevo chat
+        setChat([]); // limpia el historial
+        setRecentPrompt("");
+        setResultData("");
+        setShowResult(true);
+    };
+
+
+    //Carga los mensajes de la actual conversación
+    const loadChat = async (conversationId) => {
+        const messages = await getMessages(conversationId);
+        const formatted = messages.map(msg => ({
+            role: msg.sender,
+            parts: msg.content,
+        }));
+        setChat(formatted);
+        setCurrentChat(chatList.findIndex(c => c.id === conversationId));
+        setShowResult(true);
+    };
 
     //Función para la animación que muestra la respuesta de la IA
     const delayData = (index, nextWord) => {
@@ -36,26 +94,45 @@ const ContextProvider = (props) => {
 
     //Función que recibe el prompt del usuario y pide una respuesta de la API
     const onSent = async () => {
-        
+        //Verificamos que input no esté vacio
+        if (!input.trim()) return;
+
         //Agregamos lo más reciente de la conversación a nuestro historial del chat en caso de que sea una conversación activa
         if (recentPrompt) {
             setChat(prev => [...prev, {role: 'user', parts:recentPrompt}]);
             setChat(prev => [...prev, {role:'ai', parts: resultData }]);
         } 
         
-        //Borramos el estado de la última respuesta del la IA
-        setResultData("");
         //Iniciamos un nuevo cuadro con la animación loading
         setLoading(true)
         //Indicamos que se mostrara una conversación en caso de que no la hubiera antes
         setShowResult(true)
-
         //Guardamos el prompt del usuario
         setRecentPrompt(input)
 
+        let conversationId = chatList[currentChat]?.id;
+        // Si no hay conversación activa, crea una nueva
+        if (!conversationId) {
+            const newConversation = await createConversation("Nueva conversación");
+            conversationId = newConversation.id;
+            setChatList(prev => [...prev, newConversation]);
+            setCurrentChat(chatList.length); // apunta al nuevo chat
+        }
+
+        // Guarda el mensaje del usuario
+        await addMessage(conversationId, "user", input);
+        setChat(prev => [...prev, { role: "user", parts: input }]);
+
+
         //Esperamos una respuesta de la IA y la guardamos en una constante
         const response = await main(chat, input)
-        
+        //Borramos la ultima respuesta de la IA
+        setResultData("");
+
+        // Guarda la respuesta de la IA
+        await addMessage(conversationId, "ai", response);
+        setChat(prev => [...prev, { role: "ai", parts: response }]);
+
         //Borramos el prompt actual
         setInput("")
 
@@ -87,6 +164,8 @@ const ContextProvider = (props) => {
         user,
         setUser,
         //Estados para el uso de la IA
+        startNewConversation,
+        loadChat,
         onSent,
         chat,
         setChat,
