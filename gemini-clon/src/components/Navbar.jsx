@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useContext } from "react";
 import { Context } from '../context/Context.jsx';
 
 const Navbar = () => {
+
+    //Navegación
+    const navigate = useNavigate();
 
     const { user, setUser, sidebarWidth, darkMode, setDarkMode, isSidebarHidden} = useContext(Context);
     //Convertimos el formato de sidebarWidht para usarlo en nuestro componente
@@ -10,11 +13,21 @@ const Navbar = () => {
     
     //Funcion para mostrar diferentes vistas de acuerdo al si un usuarioo esta loggeado o no
     const logout = ()=>{
-        setUser(false)
+
+        if (window.confirm("¿Seguro que quieres cerrar sesión?")) {
+            navigate("/");
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            setUser(false);
+            console.log('logout exitoso');
+        } else {
+            return;
+        }
+        
     }
 
     const login = ()=>{
-        setUser(true)
+        navigate("/auth")
     }
 
     return(

@@ -112,11 +112,8 @@ const AuthForm = () => {
 
             if (result.exists) {
                 setStep('login');
-                console.log(step);
-                
             } else {
                 setStep('signup');
-                console.log(step);
             }
         } catch (error) {
             console.error('Error al verificar correo:', error);
