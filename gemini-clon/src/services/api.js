@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:4000/api';
+export const BASE_URL = 'http://localhost:4000/api';
 
 export const checkEmailExists = async (email) => {
     const res = await fetch(`${BASE_URL}/auth/check-email`, {
@@ -30,3 +30,42 @@ export const loginUser = async (credentials) => {
 
     return res.json();
 };
+
+export const createConversation = async (title) => {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${BASE_URL}/conversations`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title }),
+    });
+    return res.json();
+};
+
+export const addMessage = async (conversationId, sender, content) => {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${BASE_URL}/conversations/${conversationId}/messages`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ sender, content }),
+    });
+    return res.json();
+};
+
+export const getMessages = async (conversationId) => {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${BASE_URL}/conversations/${conversationId}/messages`, {
+        headers: {
+        Authorization: `Bearer ${token}`,
+        },
+    });
+    return res.json();
+};
+
+
+
