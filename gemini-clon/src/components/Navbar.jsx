@@ -15,10 +15,10 @@ const Navbar = () => {
     const logout = ()=>{
 
         if (window.confirm("¿Seguro que quieres cerrar sesión?")) {
-            navigate("/");
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            setUser(false);
+            setUser(null);
+            navigate("/auth");
             console.log('logout exitoso');
         } else {
             return;
