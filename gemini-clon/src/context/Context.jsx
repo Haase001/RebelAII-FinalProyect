@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import main from "../config/gemini.js"
 
 export const Context = createContext();
@@ -17,7 +17,16 @@ const ContextProvider = (props) => {
     const [loading, setLoading] = useState(false); //Estado que carga la animación de carga mientras se espera por una respuesta
     const [resultData, setResultData] = useState(""); //Estado que muestra la respuesta más reciente
 
-    
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        const storedUser = localStorage.getItem('user');
+
+        if (storedToken && storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+
     //Función para la animación que muestra la respuesta de la IA
     const delayData = (index, nextWord) => {
         setTimeout(function () {
@@ -65,7 +74,10 @@ const ContextProvider = (props) => {
     //Estados para el diseño de la pagina
     const [sidebarWidth, setSidebarWidth] = useState(64); //Cambiará de acuerdo a los estados sel sidebar
     const [isPinned, setIsPinned] = useState(false); //Cambiara de acuerdo a los estados de sidebar
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(() => {
+        const stored = localStorage.getItem('darkMode');
+        return stored ? JSON.parse(stored) : false;
+    });
     const [isSidebarHidden, setIsSidebarHidden] = useState(true)
 
 

@@ -11,6 +11,8 @@ function App() {
   useEffect(() => {
     //Cambia la clase del <body> para activar el modo oscuro o el claro
     document.body.className = darkMode ? 'dark' : ''
+    //Guarda el estado en localSotrage
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]) //Se ejecuta cada vez que cambia el estado de darkMode
 
   return (
