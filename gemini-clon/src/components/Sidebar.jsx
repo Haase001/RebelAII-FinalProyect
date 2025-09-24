@@ -6,7 +6,7 @@ const Sidebar = () => {
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [openMenu, setOpenMenu] = useState(null);
-    const { user, chatList, setSidebarWidth, isPinned, setIsPinned, isSidebarHidden} = useContext(Context)
+    const { user, startNewConversation, chatList, setSidebarWidth, isPinned, setIsPinned, isSidebarHidden, loadChat, setCurrentChat} = useContext(Context)
 
     
     useEffect(()=>{
@@ -42,9 +42,12 @@ const Sidebar = () => {
         }
     };
 
-    const chatsToggle = (index) => {
-        console.log(`Cambiar al chat #${index}`);
-        // Aquí usaré setChat(chatList[index]) más adelante
+    const chatsToggle = async (index) => {
+        const selectedChat = chatList[index];
+        if (!selectedChat) return;
+
+        setCurrentChat(index); // actualiza el índice del chat activo
+        await loadChat(selectedChat.id); // carga los mensajes desde el backend
     };
 
     return (
@@ -80,7 +83,7 @@ const Sidebar = () => {
                         {/* Botón de nueva conversación */}
                         <div 
                         className={`flex items-center px-4 py-2 mb-2 rounded-md cursor-pointer hover:bg-slate-400 transition-color ${!user && 'opacity-50 cursor-not-allowed'}`}
-                        onClick={() => user && console.log('Crear nueva conversación')}
+                        onClick={() => user && startNewConversation()}
                         >
                             <i className="fa-regular fa-pen-to-square ml-3"></i>
                             {(isExpanded || isPinned) && (
@@ -140,7 +143,9 @@ const Sidebar = () => {
                                                 className="flex items-center truncate"
                                                 >
                                                     {(isExpanded || isPinned) && (
-                                                        <span className="ml-3">{item.slice(0,18)}</span>
+                                                        <span className="ml-3">
+                                                            {item.title?.slice(0, 18) || `Chat #${index + 1}`}
+                                                        </span>
                                                     )}
                                                 </div>
                                                 {(isExpanded || isPinned) && (
