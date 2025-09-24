@@ -4,24 +4,28 @@ import { useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Context } from "../context/Context.jsx"
+import { checkEmailExists, registerUser, loginUser } from "../services/api";
 
 
 const AuthForm = () => {
 
+    //Estados necesarios en el componente
     const [step, setStep] = useState('initial'); // 'initial', 'signup', 'login'
     const [showPass, setShowPass] = useState(false); // Define si se mostrará la contraseña
+    const [authError, setAuthError] = useState('');
 
+    //Validaciones con useForm
     const userFormSchema = yup.object({
         email: yup.string().email("Correo electrónico inválido").required("Es necesario escribir un correo"),
 
-    password: step === 'initial'
+    password: step === 'login'
         ? yup
             .string()
-            .notRequired()
+            .required()
         : yup
             .string()
             .min(8, "La contraseña debe tener un mínimo de 8 caracteres")
-            .matches(/[A-Za-z]/, "Debe incluir letras")
+            .matches(/[A-Za-z]/, "La contraseña debe incluir letras")
             .matches(/\d/, "Debe incluir números")
             .required("Es necesario escribir una contraseña"),
 
@@ -49,7 +53,7 @@ const AuthForm = () => {
     }).required();
 
 
-    //Usamos seForm con el esquema de validación de yup
+    //Usamos useForm con el esquema de validación de yup
     const {
         register,
         handleSubmit,
@@ -70,7 +74,7 @@ const AuthForm = () => {
     const navigate = useNavigate();
 
     //Contexto
-    const { setIsSidebarHidden } = useContext(Context);
+    const { setIsSidebarHidden, setUser } = useContext(Context);
 
     useEffect(()=>{
         setIsSidebarHidden(true)
@@ -103,11 +107,19 @@ const AuthForm = () => {
 
         if (!isValid) return;
 
-        // Simulación: si el correo incluye "existe", asumimos que ya está registrado
-        if (emailValue.includes('existe')) {
-            setStep('login');
-        } else {
-            setStep('signup');
+        try {
+            const result = await checkEmailExists(emailValue);
+
+            if (result.exists) {
+                setStep('login');
+                console.log(step);
+                
+            } else {
+                setStep('signup');
+                console.log(step);
+            }
+        } catch (error) {
+            console.error('Error al verificar correo:', error);
         }
     }
 
@@ -118,14 +130,64 @@ const AuthForm = () => {
     }
 
     //submit
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+        //En dado caso que el estado sea initial finalizamos la función
         if (step === 'initial') {
             return
         }
-        console.log(data)
-        setStep('initial')
-        reset();
-        //navigate("/chats")
+
+        //Verificamos si el estado es signup
+        if (step === 'signup') {
+            try {
+                const result = await registerUser({
+                    email: data.email,
+                    password: data.password,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    birthDate: data.birthDate,
+                });
+                if (result.error) {
+                    console.error('Error al registrar:', result.error);
+                    return;
+                }
+                localStorage.setItem('token', result.token);
+                localStorage.setItem('user', JSON.stringify(result.user)); 
+                setUser(result.user); // actualiza el contexto
+                console.log('Usuario registrado:', result);
+                setStep('initial');
+                reset();
+                navigate("/chats");
+
+            } catch (error) {
+                console.error('Error inesperado en registro:', error)
+            }
+        }
+        if (step === 'login') {
+            try {
+                const result = await loginUser({
+                    email: data.email,
+                    password: data.password,
+                });
+
+                if (result.token) {
+                    localStorage.setItem('token', result.token);
+                    localStorage.setItem('user', JSON.stringify(result.user)); 
+                    setUser(result.user); // actualiza el contexto
+                    console.log('Login exitoso');
+                    setStep('initial');
+                    setAuthError('')
+                    reset();
+                    navigate("/chats");
+                } else {
+                    console.error('Error al iniciar sesión:', result.error);
+                    setAuthError(result.error || 'Error desconocido al iniciar sesión');
+                }
+
+            } catch (error) {
+                console.error('Error inesperado en login:', error);
+            }
+    }
+
     }
 
     const handleKeyPress = (e) => {
@@ -226,6 +288,7 @@ const AuthForm = () => {
                             </div>
                             {/*Error solo se mostrará al ocurrir un error*/}
                             {errors.password && ( <p className="text-red-500 text-sm mt-1">{errors.password.message}</p> )}
+                            {authError && <p className="text-red-500 text-sm mt-1">{authError}</p>}
                         </>
                     )}
                     
