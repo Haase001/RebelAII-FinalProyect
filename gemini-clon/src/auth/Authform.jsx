@@ -74,7 +74,13 @@ const AuthForm = () => {
     const navigate = useNavigate();
 
     //Contexto
-    const { setIsSidebarHidden, setUser } = useContext(Context);
+    const { setIsSidebarHidden, user, setUser } = useContext(Context);
+    
+    useEffect(()=>{
+        if (user) {
+            navigate("/chats")
+        }
+    },[navigate, user])
 
     useEffect(()=>{
         setIsSidebarHidden(true)
