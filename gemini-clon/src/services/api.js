@@ -1,7 +1,7 @@
 export const BASE_URL = 'https://rebelaii-finalproyect-backend.onrender.com';
 
 export const checkEmailExists = async (email) => {
-    const res = await fetch(`${BASE_URL}/api/auth/check-email`, {
+    const res = await fetch(`${BASE_URL}/users/check-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
