@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://rebelaii-finalproyect-backend.onrender.com/';
+export const BASE_URL = 'https://rebelaii-finalproyect-backend.onrender.com';
 
 export const checkEmailExists = async (email) => {
     const res = await fetch(`${BASE_URL}/auth/check-email`, {
