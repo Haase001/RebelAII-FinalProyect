@@ -1,7 +1,7 @@
 export const BASE_URL = 'https://rebelaii-finalproyect-backend.onrender.com';
 
 export const checkEmailExists = async (email) => {
-    const res = await fetch(`${BASE_URL}/auth/check-email`, {
+    const res = await fetch(`${BASE_URL}/api/auth/check-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -12,7 +12,7 @@ export const checkEmailExists = async (email) => {
 
 
 export const registerUser = async (userData) => {
-    const res = await fetch(`${BASE_URL}/auth/signup`, {
+    const res = await fetch(`${BASE_URL}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData),
@@ -22,7 +22,7 @@ export const registerUser = async (userData) => {
 };
 
 export const loginUser = async (credentials) => {
-    const res = await fetch(`${BASE_URL}/auth/login`, {
+    const res = await fetch(`${BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
