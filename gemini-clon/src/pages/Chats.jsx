@@ -102,31 +102,6 @@ const Chats = () => {
                                     </div>
                                 )
                             })}
-                            <div className='flex justify-end' >
-                                <div className='flex max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-2xl rounded-tr-sm p-3 bg-slate-400'>
-                                    <span className="break-words mt-1">{recentPrompt}</span>
-                                </div>
-                            </div>
-                            <div className='flex justify-start' >
-                                <div className='flex max-w-xs md:max-w-md lg:max-w-2xl xl:max-w-xl p-3 dark:bg-gray-950'>
-                                    <span className={`text-2xl text-blue-500 ${loading ? "rounded-full animation" : ""}`}>
-                                        <i className={`fa-brands fa-fulcrum  ${!loading ? "mr-3": "rounded-full bg-white dark:bg-gray-950 py-1 px-2"} `}></i>
-                                    </span>
-                                    {loading ? (
-                                        <span className='mt-1'></span>
-                                        ):(
-                                            <div className='result-data'>
-                                                <ReactMarkdown
-                                                remarkPlugins={[remarkGfm]}
-                                                >
-                                                    {DOMPurify.sanitize(resultData)}
-                                                    
-                                                </ReactMarkdown>
-                                                <div ref={messagesEndRef} />
-                                            </div>
-                                        ) }
-                                </div>
-                            </div>
                         </div>
                     )}
                 </div>

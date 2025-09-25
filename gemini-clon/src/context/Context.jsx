@@ -111,41 +111,50 @@ const ContextProvider = (props) => {
         setRecentPrompt(input)
 
         let conversationId = chatList[currentChat]?.id;
+
         // Si no hay conversación activa, crea una nueva
+        let title = "Nueva conversación";
         if (!conversationId) {
-            const newConversation = await createConversation("Nueva conversación");
+            const { response, title: generatedTitle } = await main(chat, input, { generateTitle: true });
+            title = generatedTitle || title;
+
+            const newConversation = await createConversation(title);
             conversationId = newConversation.id;
             setChatList(prev => [...prev, newConversation]);
             setCurrentChat(chatList.length); // apunta al nuevo chat
+            await addMessage(conversationId, "user", input);
+            setChat([{ role: "user", parts: input }, { role: "ai", parts: response }]);
+            await addMessage(conversationId, "ai", response);
+            setResultData("");
+            setInput("");
+            //Animación para mostrar la respuesta
+            let newResponse= response.split(" ");
+            for (let i = 0; i < newResponse.length; i++) {
+                const nextWord = newResponse[i];
+                delayData(i,nextWord+" ")
+            }
+            setLoading(false);
+            return;
         }
 
-        // Guarda el mensaje del usuario
+        // 🧠 Conversación ya existente
         await addMessage(conversationId, "user", input);
         setChat(prev => [...prev, { role: "user", parts: input }]);
 
-
-        //Esperamos una respuesta de la IA y la guardamos en una constante
-        const response = await main(chat, input)
-        //Borramos la ultima respuesta de la IA
-        setResultData("");
-
-        // Guarda la respuesta de la IA
+        const { response } = await main(chat, input);
         await addMessage(conversationId, "ai", response);
         setChat(prev => [...prev, { role: "ai", parts: response }]);
-
-        //Borramos el prompt actual
-        setInput("")
-
+        setResultData("");
+        setInput("");
+        
         //Animación para mostrar la respuesta
         let newResponse= response.split(" ");
         for (let i = 0; i < newResponse.length; i++) {
             const nextWord = newResponse[i];
             delayData(i,nextWord+" ")
         }
-
-        //Quitamos la animacíon de loading
-        setLoading(false)
-
+        
+        setLoading(false);
     }
 
     //Estados para el diseño de la pagina
