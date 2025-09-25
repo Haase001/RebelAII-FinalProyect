@@ -5,7 +5,7 @@ import AnimatedLayout from '../components/AnimatedLayout.jsx';
 import Chats from "../pages/Chats.jsx";
 import Home from "../pages/Home.jsx";
 import Settings from "../pages/Settings.jsx";
-import AuthForm from "../auth/AuthForm.jsx";
+import AuthForm from "../auth/Authform.jsx";
 
 
 const AppRoutes = () => {
